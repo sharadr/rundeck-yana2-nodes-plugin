@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>Rundeck Plugins</name>
+	<groupId>com.dtolabs.rundeck.plugins</groupId>
+	<artifactId>rundeck-yana2-nodes-plugin</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+
+	<properties>
+		<rundeck.version>1.4.3</rundeck.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.rundeck.core</groupId>
+			<artifactId>rundeck-core</artifactId>
+			<version>${rundeck.version}</version>
+		</dependency>   
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+		</dependency>   
+
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>  
+
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1.3</version>
+			<exclusions>
+			<exclusion>
+			<groupId>maven-plugins</groupId>
+			<artifactId>maven-findbugs-plugin</artifactId>
+			</exclusion>
+			<exclusion>
+			<groupId>maven-plugins</groupId>
+			<artifactId>maven-cobertura-plugin</artifactId>
+			</exclusion>
+						
+			</exclusions>
+		</dependency>
+
+<dependency>
+	<groupId>org.apache.httpcomponents</groupId>
+	<artifactId>httpclient</artifactId>
+	<version>4.2</version>
+</dependency>
+            
+
+
+	</dependencies>
+	 <build>
+    <plugins>
+    
+    <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>get-dependencies</id>
+            <phase>test</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${pom.basedir}/target/classes/lib/</outputDirectory>
+			 
+              <artifactItems>
+                <artifactItem>
+                 	<groupId>org.apache.httpcomponents</groupId>
+	<artifactId>httpclient</artifactId>
+	<version>4.2</version>
+                </artifactItem>
+                   <artifactItem>
+                  	<groupId>org.apache.httpcomponents</groupId>
+	<artifactId>httpcore</artifactId>
+	<version>4.2</version>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+		  </executions>
+		  </plugin>
+		  
+    
+    
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <index>true</index>
+            <manifest>
+              <addClasspath>false</addClasspath>
+            </manifest>
+            <manifestEntries>
+              <Rundeck-Plugin-Version>1.0</Rundeck-Plugin-Version>
+              <Rundeck-Plugin-Archive>true</Rundeck-Plugin-Archive>
+              <Rundeck-Plugin-Classnames>com.dtolabs.rundeck.plugin.resources.yana2.Yana2ResourceModelSourceFactory</Rundeck-Plugin-Classnames>
+              <Rundeck-Plugin-Libs>lib/httpclient-4.2.jar lib/httpcore-4.2.jar</Rundeck-Plugin-Libs>
+            </manifestEntries>
+          </archive>
+        </configuration>
+       
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
+
