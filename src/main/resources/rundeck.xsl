@@ -3,7 +3,6 @@
 
 <!-- Receives the parameters  -->
 <xsl:param name="nodeType" />
-<xsl:param name="username" />
 <xsl:param name="url" />
 
 <xsl:output method="xml"/>
@@ -20,7 +19,7 @@
   <node name="{@name}" description="{description}" 
 	type="{@type}" id="{@id}" tags="{@tags}" 
 	hostname="{@name}"
-	username="{$username}" editUrl="{$url}/node/show/{@id}">
+	editUrl="{$url}/node/show/{@id}">
     <xsl:apply-templates select="attributes/attribute"/>
   </node>
 </xsl:template>

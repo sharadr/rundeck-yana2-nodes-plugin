@@ -24,6 +24,7 @@ public class Yana2ResourceModelSourceFactory implements ResourceModelSourceFacto
     public static final String PASSWORD = "password";
     public static final String URL = "url";
     public static final String NODE_TYPE = "nodeType";
+    public static final String QUERY_STRING = "queryString";
 
     @SuppressWarnings("unused")
     private Framework framework;
@@ -31,10 +32,11 @@ public class Yana2ResourceModelSourceFactory implements ResourceModelSourceFacto
     private static List<Property> descriptionProperties = new ArrayList<Property>();
 
     static {
-        descriptionProperties.add(PropertyUtil.string(USERNAME, "Username", "Yana Username", true, null));
-        descriptionProperties.add(PropertyUtil.string(PASSWORD, "Password", "Yana Password", true, null));
+        descriptionProperties.add(PropertyUtil.string(USERNAME, "Username", "Yana Username", true, "admin"));
+        descriptionProperties.add(PropertyUtil.string(PASSWORD, "Password", "Yana Password", true, "admin"));
         descriptionProperties.add(PropertyUtil.string(URL, "URL", "Yana URL", true, null));
         descriptionProperties.add(PropertyUtil.string(NODE_TYPE, "Node Type", "Node Type", true, null));
+        descriptionProperties.add(PropertyUtil.string(QUERY_STRING, "Query String", "Query String", true, "/node/list?format=xml"));
 
     }
 

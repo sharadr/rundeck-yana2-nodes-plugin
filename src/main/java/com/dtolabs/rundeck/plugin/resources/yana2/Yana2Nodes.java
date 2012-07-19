@@ -30,11 +30,11 @@ public class Yana2Nodes {
         Yana2Nodes conn = new Yana2Nodes();
         String url = "https://192.168.1.166:8443/";
 
-        String xml = conn.getNodes("admin", "admin", url);
+        String xml = conn.getNodes("admin", "admin", url, "/node/list?format=xml");
         System.out.println(xml);
     }
 
-    public String getNodes(String username, String password, String url) throws ClientProtocolException, IOException {
+    public String getNodes(String username, String password, String url, String queryString) throws ClientProtocolException, IOException {
 
         // TODO: Make this configurable.
         ProviderManager.installNaiveProvider();
@@ -57,7 +57,7 @@ public class Yana2Nodes {
             HttpEntity entity = response.getEntity();
             EntityUtils.consume(entity);
 
-            HttpGet httpget = new HttpGet(url + "/node/list?format=xml");
+            HttpGet httpget = new HttpGet(url + queryString);
 
             // Create a response handler
             ResponseHandler<String> responseHandler = new BasicResponseHandler();

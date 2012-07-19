@@ -9,9 +9,10 @@ import com.dtolabs.rundeck.core.common.NodeSetImpl;
 import com.dtolabs.rundeck.core.common.NodesXMLParser;
 
 /**
- * Map node information from xml provided by Yana2 
+ * Map node information from xml provided by Yana2
+ * 
  * @author sharad
- *
+ * 
  */
 public class NodeMapper {
 
@@ -19,6 +20,11 @@ public class NodeMapper {
     private String password;
     private String url;
     private String nodeType;
+    private String queryString;
+
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
+    }
 
     public void setUsername(String userName) {
         this.userName = userName;
@@ -49,12 +55,13 @@ public class NodeMapper {
 
         InputStream in = null;
         try {
-            in = new ByteArrayInputStream(new RundeckXMLTransform().parse(userName, password, url, nodeType).toByteArray());
+            in = new ByteArrayInputStream(new RundeckXMLTransform().parse(userName, password, url, nodeType, queryString).toByteArray());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         NodesXMLParser parser = new NodesXMLParser(in, nodeSet);
+        
         try {
             parser.parse();
         } catch (NodeFileParserException e) {
@@ -69,8 +76,8 @@ public class NodeMapper {
         mapper.setUsername("admin");
         mapper.setPassword("admin");
         mapper.setURL("https://192.168.1.166:8443");
+        mapper.setQueryString("/node/list?format=xml");
         System.out.println(mapper.performQuery());
-
     }
 
 }

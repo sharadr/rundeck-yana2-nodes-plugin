@@ -15,33 +15,31 @@ import org.apache.http.client.ClientProtocolException;
 
 /**
  * Extract selective node information from XML format of nodes provided by Yana2
+ * 
  * @author sharad
- *
+ * 
  */
 public class RundeckXMLTransform {
 
-     public ByteArrayOutputStream parse(String userName, String password, String url, String nodeType) throws ClientProtocolException, IOException,
-            TransformerException {
+    public ByteArrayOutputStream parse(String userName, String password, String url, String nodeType, String queryString) throws ClientProtocolException,
+            IOException, TransformerException {
 
-        InputStream in = new ByteArrayInputStream(new Yana2Nodes().getNodes(userName, password, url).getBytes());
+        InputStream in = new ByteArrayInputStream(new Yana2Nodes().getNodes(userName, password, url, queryString).getBytes());
 
         InputStream styleSheetStream = this.getClass().getClassLoader().getResourceAsStream("rundeck.xsl");
 
         TransformerFactory tFactory = TransformerFactory.newInstance();
 
         Transformer transformer = tFactory.newTransformer(new StreamSource(styleSheetStream));
-        transformer.setParameter("nodeType", nodeType);
-        transformer.setParameter("username", userName);
+        transformer.setParameter("nodeType", nodeType);      
         transformer.setParameter("url", url);
 
         StreamSource xmlSource = new StreamSource(in);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         transformer.transform(xmlSource, new StreamResult(baos));
-       
-        
+
         in.close();
         styleSheetStream.close();
-   
 
         return baos;
 
@@ -50,7 +48,7 @@ public class RundeckXMLTransform {
     public static void main(String[] args) throws Exception {
 
         RundeckXMLTransform parse = new RundeckXMLTransform();
-        ByteArrayOutputStream baos = parse.parse("admin", "admin", "https://192.168.1.166:8443", "VM");
+        ByteArrayOutputStream baos = parse.parse("admin", "admin", "https://192.168.1.166:8443", "VM", "/node/list?format=xml");
         System.out.println(baos.toString());
     }
 

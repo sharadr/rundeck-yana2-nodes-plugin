@@ -10,7 +10,8 @@ import com.dtolabs.rundeck.core.resources.ResourceModelSource;
 import com.dtolabs.rundeck.core.resources.ResourceModelSourceException;
 
 /**
- * Yana2ResourceModelSource produces nodes by querying the Yana2 nodes to list instances.
+ * Yana2ResourceModelSource produces nodes by querying the Yana2 nodes to list
+ * instances.
  * 
  * @author sharad
  * 
@@ -22,6 +23,7 @@ public class Yana2ResourceModelSource implements ResourceModelSource {
     private String password;
     private String url;
     private String nodeType;
+    private String queryString;
 
     INodeSet iNodeSet;
     NodeMapper mapper;
@@ -29,8 +31,10 @@ public class Yana2ResourceModelSource implements ResourceModelSource {
     public Yana2ResourceModelSource(final Properties configuration) {
         this.userName = configuration.getProperty(Yana2ResourceModelSourceFactory.USERNAME);
         this.password = configuration.getProperty(Yana2ResourceModelSourceFactory.PASSWORD);
+        //TODO : Sanitize URL. Remove trailing slash
         this.url = configuration.getProperty(Yana2ResourceModelSourceFactory.URL);
         this.nodeType = configuration.getProperty(Yana2ResourceModelSourceFactory.NODE_TYPE);
+        this.queryString = configuration.getProperty(Yana2ResourceModelSourceFactory.QUERY_STRING);
         initialize();
 
     }
@@ -46,9 +50,11 @@ public class Yana2ResourceModelSource implements ResourceModelSource {
         mapper.setPassword(password);
         mapper.setURL(url);
         mapper.setNodeType(nodeType);
+        mapper.setQueryString(queryString);
     }
 
     public void validate() throws ConfigurationException {
+        
         if (null == userName) {
             throw new ConfigurationException("userName is required");
         }
@@ -62,6 +68,10 @@ public class Yana2ResourceModelSource implements ResourceModelSource {
 
         if (null == nodeType) {
             throw new ConfigurationException("nodeType is required");
+        }
+        
+        if (null == queryString) {
+            throw new ConfigurationException("queryString is required");
         }
 
     }
