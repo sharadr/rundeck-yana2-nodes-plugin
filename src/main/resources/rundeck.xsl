@@ -8,7 +8,7 @@
 <xsl:output method="xml"/>
 
 
-<xsl:template match="/nodes">
+<xsl:template match="/yana/nodes">
 <project>
 <xsl:apply-templates select="node[@type=$nodeType]"/>
 </project>
