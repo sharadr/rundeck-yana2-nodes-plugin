@@ -28,55 +28,69 @@ public class Yana2Nodes {
 
     public static void main(String[] args) throws Exception {
         Yana2Nodes conn = new Yana2Nodes();
-        String url = "https://192.168.1.166:8443/";
+        String url = "https://centos62-rundeck-tomcat:8443/yana2";
 
-        String xml = conn.getNodes("admin", "admin", url, "/node/list?format=xml");
+        String xml = conn.getNodes("admin", "admin", url, "/api/node/list/xml?project=demo");
         System.out.println(xml);
     }
 
     public String getNodes(String username, String password, String url, String queryString) throws ClientProtocolException, IOException {
-
         // TODO: Make this configurable.
         ProviderManager.installNaiveProvider();
 
-        DefaultHttpClient httpclient = getTolerantClient();
-        httpclient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, true);
+        DefaultHttpClient httpClient = getTolerantClient();
+        httpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, true);
 
         try {
+            /* Request the base URL from Yana2 to determine which authentication check has been configured: */
+            HttpGet httpGet = new HttpGet(url);
+            ResponseHandler<String> basicResponseHandler = new BasicResponseHandler();
+            String responseBody = httpClient.execute(httpGet, basicResponseHandler);
 
-            HttpPost httpost = new HttpPost(url + "/j_spring_security_check");
+            /* Check for the Tomcat container security check and post credentials: */
+            String securityCheck = "";
+
+            if (responseBody.contains("j_security_check"))
+              securityCheck = "/j_security_check";
+            else
+              securityCheck = "/j_spring_security_check";
+
+            HttpPost httpPost = new HttpPost(url + securityCheck);
 
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
             nvps.add(new BasicNameValuePair("j_username", username));
             nvps.add(new BasicNameValuePair("j_password", password));
 
-            httpost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
+            httpPost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
 
-            HttpResponse response = httpclient.execute(httpost);
+            HttpResponse httpResponse = httpClient.execute(httpPost);
 
-            HttpEntity entity = response.getEntity();
+            HttpEntity entity = httpResponse.getEntity();
             EntityUtils.consume(entity);
 
-            HttpGet httpget = new HttpGet(url + queryString);
+            /* Re-request the base URL from Yana2 to complete the required redirect: */
+            httpGet = new HttpGet(url);
+            ResponseHandler<String> reBasicResponseHandler = new BasicResponseHandler();
+            String reResponseBody = httpClient.execute(httpGet, reBasicResponseHandler);
+
+            /* Finally query the node list: */
+            httpGet = new HttpGet(url + queryString);
 
             // Create a response handler
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            String responseBody = httpclient.execute(httpget, responseHandler);
+            ResponseHandler<String> queryBasicResponseHandler = new BasicResponseHandler();
+            String queryResponseBody = httpClient.execute(httpGet, queryBasicResponseHandler);
 
-            entity = response.getEntity();
-            EntityUtils.consume(entity);
-
-            if (responseBody.contains("DOCTYPE html")) {
+            if (queryResponseBody.contains("<html>")) {
                 throw new IOException("Could not get node information from Yana. Check your URL and/or credentials");
             }
 
-            return responseBody;
+            return queryResponseBody;
 
         } finally {
             // When HttpClient instance is no longer needed,
             // shut down the connection manager to ensure
             // immediate deallocation of all system resources
-            httpclient.getConnectionManager().shutdown();
+            httpClient.getConnectionManager().shutdown();
         }
     }
 
