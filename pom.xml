@@ -4,7 +4,7 @@
 	<name>Rundeck Plugins</name>
 	<groupId>com.dtolabs.rundeck.plugins</groupId>
 	<artifactId>rundeck-yana2-nodes-plugin</artifactId>
-	<version>1.3</version>
+	<version>1.4</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -51,7 +51,7 @@
 <dependency>
 	<groupId>org.apache.httpcomponents</groupId>
 	<artifactId>httpclient</artifactId>
-	<version>4.2</version>
+	<version>4.2.1</version>
 </dependency>
             
 
@@ -86,12 +86,12 @@
                 <artifactItem>
                  	<groupId>org.apache.httpcomponents</groupId>
 	<artifactId>httpclient</artifactId>
-	<version>4.2</version>
+	<version>4.2.1</version>
                 </artifactItem>
                    <artifactItem>
                   	<groupId>org.apache.httpcomponents</groupId>
 	<artifactId>httpcore</artifactId>
-	<version>4.2</version>
+	<version>4.2.1</version>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -115,7 +115,7 @@
               <Rundeck-Plugin-Version>1.0</Rundeck-Plugin-Version>
               <Rundeck-Plugin-Archive>true</Rundeck-Plugin-Archive>
               <Rundeck-Plugin-Classnames>com.dtolabs.rundeck.plugin.resources.yana2.Yana2ResourceModelSourceFactory</Rundeck-Plugin-Classnames>
-              <Rundeck-Plugin-Libs>lib/httpclient-4.2.jar lib/httpcore-4.2.jar</Rundeck-Plugin-Libs>
+              <Rundeck-Plugin-Libs>lib/httpclient-4.2.1.jar lib/httpcore-4.2.1.jar</Rundeck-Plugin-Libs>
             </manifestEntries>
           </archive>
         </configuration>
