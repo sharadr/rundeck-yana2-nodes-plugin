@@ -6,11 +6,15 @@ Provides Node Information from Yana2 to Rundeck
 Building
 ------------
 
-Download Apache Maven 3.0 
-Unzip and add bin folder to PATH
-Execute the following to install rundeck core jar locally.
-mvn install:install-file -DgroupId=org.rundeck.core -DartifactId=rundeck-core -Dversion=1.4.3 -Dpackaging=jar -DgeneratePom=true -Dfile=rundeck-core-1.4.3.jar
-Run mvn clean install to build.
+Setting up:
+
+* Download Apache Maven 3.0 
+* Unzip and add bin folder to PATH
+* Execute the following to install rundeck core jar locally:
+
+       mvn install:install-file -DgroupId=org.rundeck.core -DartifactId=rundeck-core -Dversion=1.4.3 -Dpackaging=jar -DgeneratePom=true -Dfile=rundeck-core-1.4.3.jar
+
+* Run mvn clean install to build.
 
 Note that the plug-in is also being continuously built at http://services.dtosolutions.com:8080/job/rundeck-yana2-nodes-plugin/
 
