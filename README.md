@@ -10,9 +10,9 @@ Setting up:
 
 * Download Apache Maven 3.0 
 * Unzip and add bin folder to PATH
-* Execute the following to install rundeck core jar locally:
+* Execute the following to install rundeck core jar (which you can find in your Rundeck installation, or here: http://build.rundeck.org/job/rundeck-development) locally:
 
-       mvn install:install-file -DgroupId=org.rundeck.core -DartifactId=rundeck-core -Dversion=1.4.3 -Dpackaging=jar -DgeneratePom=true -Dfile=rundeck-core-1.4.3.jar
+    mvn install:install-file -DgroupId=org.rundeck.core -DartifactId=rundeck-core -Dversion=1.4.3 -Dpackaging=jar -DgeneratePom=true -Dfile=rundeck-core-1.4.3.jar
 
 * Run mvn clean install to build.
 
